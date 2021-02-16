@@ -8,7 +8,8 @@ def get_url(url):
     # storing all the urls
     urls = []
     urls_string = []
-    urls_clean = []
+    urls_name = []
+    wiki_dict = {}
     # finds all the divs with a certain id
     data = soup.find_all('div', attrs={'id': 'bodyContent'})
 
@@ -27,19 +28,26 @@ def get_url(url):
         if ("/wiki/" not in urls_string[n]) or ("wiktionary.org" in urls_string[n]) or \
                 (".jpg" in urls_string[n]) or (".png" in urls_string[n]) or ("BookSources" in urls_string[n]) or \
                 (".svg" in urls_string[n]) or ("ISBN" in urls_string[n]) or ("(" in urls_string[n]) or \
-                ("Category" in urls_string[n]) or ("wikidata.org" in urls_string[n]) or ("Verifiability" in urls_string[n]) or \
-                ("Portal" in urls_string[n]) or ("Citation" in urls_string[n]) or ("wikisource" in urls_string[n]) or \
-                ("File" in urls_string[n]):
+                ("Category" in urls_string[n]) or ("wikidata.org" in urls_string[n]) or (
+                ("Verifiability" in urls_string[n]) or "Portal" in urls_string[n]) or ("Citation" in urls_string[n]) or \
+                ("wikisource" in urls_string[n]) or ("File" in urls_string[n]) or ("Help" in urls_string[n]):
             urls_string[n] = "temp"
 
     # gets rid of all faulty urls
-    for n in range(len(urls_string)-1, 0, -1):
+    for n in range(len(urls_string) - 1, 0, -1):
         if urls_string[n] == "temp":
             urls_string.remove("temp")
 
-    # testing purposes
-    for n in range(len(urls_string)):
-        print(str(n) + " " + urls_string[n])
+    # gets the "name" of the urls
+    for n in range(len(urls_string) - 1):
+        urls_name.append(urls_string[n].replace("https://en.wikipedia.org/wiki/", "").replace("_", " "))
+
+    # creates the dictionary
+    for n in range(len(urls_string) - 1):
+        wiki_dict[urls_name[n]] = urls_string[n]
+
+    # for testing purposes
+    print(wiki_dict)
 
 
 def main():
